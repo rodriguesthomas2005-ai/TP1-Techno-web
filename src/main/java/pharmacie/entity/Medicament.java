@@ -1,7 +1,8 @@
 package pharmacie.entity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +20,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @Entity
 @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
 public class Medicament {
@@ -31,8 +32,7 @@ public class Medicament {
 	@NonNull
 	@Column(unique=true, length = 255)
 	private String nom;
- 
-	@Size(min = 5, max = 100, message = "quantiteParUnite must be between 5 and 100 characters")
+
 	private String quantiteParUnite = "Une boîte de 12";
 
 	@PositiveOrZero
@@ -80,7 +80,6 @@ public class Medicament {
 	private Categorie categorie;
 
 	@ToString.Exclude
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicament")
-	private ArrayList<Ligne> lignes = new ArrayList<>();
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "medicament")
+	private List<Ligne> lignes = new LinkedList<>();
 }
